@@ -16,12 +16,8 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 		- [1. Virtual Functions](#1-virtual-functions)
 		- [2. Dynamic Binding](#1-dynamic-binding)
 		- [3. Base and Derived Classes](#3-base-and-derived-classes)
-		- [4. The override Specifier](#4-the-override-specifier)
-		- [5. ](#5-the-final-specifier)
-		- [6. Virtual Destructors](#6-virtual-destructors)
+		- [4. Virtual Destructors](#6-virtual-destructors)
 	- [Practical Examples](#pratical-examples)
-	- [Advantages and Considerations](#advantages-and-considerations)
-	- [Common Pitfalls and Best Practices](#common-pitfalls-and-best-practices)
 
 ***
 ***
@@ -103,21 +99,19 @@ private:
 public:
     Circle(double r) : radius(r) {}
 
-    // Override draw method
-    void draw() const override {
+    // Override draw method (No 'override' keyword in C++98)
+    virtual void draw() const {
         std::cout << "Drawing a Circle with radius " << radius << std::endl;
     }
 
     // Override area method
-    double area() const override {
+    virtual double area() const {
         return M_PI * radius * radius;
     }
 };
-
 #endif // CIRCLE_H
 ```
 ```C++
-// Rectangle.h
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
@@ -132,13 +126,13 @@ public:
     Rectangle(double w, double h) : width(w), height(h) {}
 
     // Override draw method
-    void draw() const override {
+    virtual void draw() const {
         std::cout << "Drawing a Rectangle with width " << width 
                   << " and height " << height << std::endl;
     }
 
     // Override area method
-    double area() const override {
+    virtual double area() const {
         return width * height;
     }
 };
@@ -202,3 +196,107 @@ virtual void functionName();
 
 
 ### 2. Dynamic Binding
+Dynamic binding refers to the process where **the call to an overridden function is resolved at run-time based on the actual object type, not the pointer/reference type**.
+
+
+### 3. Base and Derived Classes
+- **Base Class**: The general class from which other classes inherit.
+- **Derived Class**: A specialized class that inherits from the base class, potentially adding or modifying behaviors.
+
+### 4. Virtual Destructors
+Ensuring that destructors are virtual in base classes is critical for proper resource cleanup when deleting derived objects through base class pointers.
+```C++
+virtual ~Shape() {}
+```
+
+## Practical Examples
+### Example 1: Animal Hierarchy
+In this example, we will create an animal hierarchy to demonstrate subtype polymorphism.
+
+- **a. Base Class**: The Animal class is an abstract class with a pure virtual function speak. The virtual destructor ensures that derived class destructors are called correctly.
+```C++
+// Animal.h
+#ifndef ANIMAL_H
+#define ANIMAL_H
+
+#include <iostream>
+
+class Animal {
+public:
+    virtual ~Animal() {}  // Virtual destructor
+
+    virtual void speak() const = 0;  // Pure virtual function
+};
+
+#endif // ANIMAL_H
+```
+- **b. Derived Classes**: The Dog and Cat classes inherit from Animal and override the speak method, providing their specific implementations.
+```C++
+// Dog.h
+#ifndef DOG_H
+#define DOG_H
+
+#include "Animal.h"
+
+class Dog : public Animal {
+public:
+    void speak() const {
+        std::cout << "Woof!" << std::endl;
+    }
+};
+
+#endif // DOG_H
+```
+```C++
+// Cat.h
+#ifndef CAT_H
+#define CAT_H
+
+#include "Animal.h"
+
+class Cat : public Animal {
+public:
+    void speak() const {
+        std::cout << "Meow!" << std::endl;
+    }
+};
+
+#endif // CAT_H
+```
+
+- **b. Derived Classes**: The program utilizes a vector of raw pointers to Animal. Each animal is instantiated and added to the vector. During iteration, the correct speak method is called for each derived class.
+```C++
+// main.cpp
+#include <iostream>
+#include <vector>
+#include <memory> // For smart pointers (only available in C++11 and later)
+
+#include "Dog.h"
+#include "Cat.h"
+
+int main() {
+    std::vector<Animal*> animals; // Using raw pointers instead of smart pointers
+
+    animals.push_back(new Dog()); // Add a Dog
+    animals.push_back(new Cat());  // Add a Cat
+    animals.push_back(new Dog());  // Add another Dog
+
+    // Iterate through the collection and call speak()
+    for (size_t i = 0; i < animals.size(); ++i) {
+        animals[i]->speak();
+    }
+
+    // Cleanup
+    for (size_t i = 0; i < animals.size(); ++i) {
+        delete animals[i]; // Manually delete each object
+    }
+
+    return 0;
+}
+```
+Output
+```BASH
+Woof!
+Meow!
+Woof!
+```
