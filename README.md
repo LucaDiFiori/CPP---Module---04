@@ -34,3 +34,19 @@ Subtype polymorphism **allows objects of different types to be treated uniformly
 
 
 ## Understanding Subtype Polymorphism
+**Subtype Polymorphism** allows a function to process objects differently based on 
+their actual derived type, even when accessed through a base class interface. 
+This is crucial for designing systems where behavior can be extended without 
+modifying existing code.
+
+**Key Characteristics**:
+- **Inheritance**: Establishes an "is-a" relationship between base and derived classes.
+- **Virtual Functions**: Enable derived classes to **override** base class methods.
+- **Base Class Pointers/References**: Allow generic handling of different derived objects.
+
+
+## Implementation in C++
+To implement subtype polymorphism in C++, follow these steps:
+- **Define a Base Class**: **Contains virtual functions** that derived classes can override.
+- **Derive Subclasses**: Inherit from the base class and override virtual functions to provide specific behaviors.
+- **Use Base Class Pointers/References**: Access derived objects through base class interfaces, enabling dynamic binding.
