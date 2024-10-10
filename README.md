@@ -181,6 +181,7 @@ Drawing a Rectangle with width 4 and height 6
 Area: 24
 ```
 
+***
 
 ## Key Concepts and Mechanisms
 ### 1. Virtual Functions
