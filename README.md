@@ -50,3 +50,31 @@ To implement subtype polymorphism in C++, follow these steps:
 - **Define a Base Class**: **Contains virtual functions** that derived classes can override.
 - **Derive Subclasses**: Inherit from the base class and override virtual functions to provide specific behaviors.
 - **Use Base Class Pointers/References**: Access derived objects through base class interfaces, enabling dynamic binding.
+
+### Step-by-Step Example
+Consider a graphics application with different shapes (e.g., Circle, Rectangle). 
+Each shape can be drawn, but the drawing process differs. 
+Using subtype polymorphism, a single interface can handle various shapes seamlessly.
+
+- Define the Base Class:
+```C++
+// Shape.h
+#ifndef SHAPE_H
+#define SHAPE_H
+
+#include <iostream>
+
+class Shape {
+public:
+    // Virtual destructor to ensure proper cleanup of derived objects
+    virtual ~Shape() {}
+
+    // Pure virtual function makes Shape an abstract class
+    virtual void draw() const = 0;
+
+    // Optional: Other virtual functions
+    virtual double area() const = 0;
+};
+
+#endif // SHAPE_H
+```
