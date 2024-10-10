@@ -56,7 +56,7 @@ Consider a graphics application with different shapes (e.g., Circle, Rectangle).
 Each shape can be drawn, but the drawing process differs. 
 Using subtype polymorphism, a single interface can handle various shapes seamlessly.
 
-- Define the Base Class:
+- a. **Define the Base Class**:
 ```C++
 // Shape.h
 #ifndef SHAPE_H
@@ -78,3 +78,102 @@ public:
 
 #endif // SHAPE_H
 ```
+- **Virtual Destructor**: Ensures that when a derived object is deleted through a base class pointer, the derived class's destructor is called.
+- **Pure Virtual Functions (= 0)**: Make Shape an abstract class, preventing direct instantiation. Derived classes must override these functions.
+
+- b. **Derive Subclasses**:
+```C++
+// Circle.h
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include "Shape.h"
+#include <cmath>
+
+class Circle : public Shape {
+private:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+
+    // Override draw method
+    void draw() const override {
+        std::cout << "Drawing a Circle with radius " << radius << std::endl;
+    }
+
+    // Override area method
+    double area() const override {
+        return M_PI * radius * radius;
+    }
+};
+
+#endif // CIRCLE_H
+```
+```C++
+// Rectangle.h
+#ifndef RECTANGLE_H
+#define RECTANGLE_H
+
+#include "Shape.h"
+
+class Rectangle : public Shape {
+private:
+    double width;
+    double height;
+
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+
+    // Override draw method
+    void draw() const override {
+        std::cout << "Drawing a Rectangle with width " << width 
+                  << " and height " << height << std::endl;
+    }
+
+    // Override area method
+    double area() const override {
+        return width * height;
+    }
+};
+
+#endif // RECTANGLE_H
+```
+- **Inheritance**: Circle and Rectangle inherit publicly from Shape.
+- **Override Keyword**: Ensures that the function is correctly overriding a base class virtual function.
+
+- c. **Utilize Polymorphism**:
+```C++
+#include <iostream>
+#include "Circle.h"
+#include "Rectangle.h"
+
+int main() {
+    // Create Circle and Rectangle objects
+    Circle circle(5.0);
+    Rectangle rectangle(4.0, 6.0);
+
+    // Use BASE CLASS Shape POINTERS for polymorphism  <------
+    Shape* shape1 = &circle;
+    Shape* shape2 = &rectangle;
+
+    // Invoke the overridden methods
+    shape1->draw();
+    std::cout << "Area: " << shape1->area() << std::endl;
+
+    shape2->draw();
+    std::cout << "Area: " << shape2->area() << std::endl;
+
+    return 0;
+}
+```
+Output
+```BASH
+Drawing a Circle with radius 5
+Area: 78.5398
+Drawing a Rectangle with width 4 and height 6
+Area: 24
+```
+
+
+## Key Concepts and Mechanisms
