@@ -13,6 +13,12 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 	- [Understanding Subtype Polymorphism](#understanding-subtype-polymorphism)
 	- [Implementation in C++](#Implementation-in-c++)
 	- [Key Concepts and Mechanisms](#key-concepts-and-mechanisms)
+		- [1. Virtual Functions](#1-virtual-functions)
+		- [2. Dynamic Binding](#1-dynamic-binding)
+		- [3. Base and Derived Classes](#3-base-and-derived-classes)
+		- [4. The override Specifier](#4-the-override-specifier)
+		- [5. ](#5-the-final-specifier)
+		- [6. Virtual Destructors](#6-virtual-destructors)
 	- [Practical Examples](#pratical-examples)
 	- [Advantages and Considerations](#advantages-and-considerations)
 	- [Common Pitfalls and Best Practices](#common-pitfalls-and-best-practices)
@@ -177,3 +183,21 @@ Area: 24
 
 
 ## Key Concepts and Mechanisms
+### 1. Virtual Functions
+A **virtual function** is a member function in a base class that you expect to be overridden in derived classes. When a function is declared as virtual in the base class, C++ uses dynamic binding (also called late binding). This means that when you call the function through a pointer or reference to the base class, the derived class's version of the function will be invoked, if it exists.
+
+- The **virtual keyword** is **only needed in the base class**. Even though derived classes override the function, you don't need to specify virtual again in the derived class (but you can for clarity).
+
+```C++
+virtual void functionName();
+```
+
+**Pure Virtual Functions**: 
+- A pure virtual function is a special kind of virtual function that is declared in a base class with the = 0 syntax. This **makes the class an abstract class**, meaning it **cannot be instantiated** on its own, and any class that derives from it must provide an implementation for the pure virtual function. 
+- (**Abstract class**: A class that contains at least one pure virtual function is considered an abstract class. This means you cannot create objects directly from that class. It's intended to serve as a base class for other classes to derive from.)
+- The **= 0** at the end of the declaration tells the compiler that this function has no body in the base class and must be overridden in derived classes.
+- **Mandatory Override**: Any class that inherits from the abstract class must provide a concrete implementation of the pure virtual function, otherwise it will also be considered abstract and cannot be instantiated.
+- Pure virtual functions are essential in polymorphism, where base classes define a general **interface** (e.g., a Shape class with a pure virtual draw() method), and derived classes (e.g., Circle or Rectangle) provide specific behavior.
+
+
+### 2. Dynamic Binding
