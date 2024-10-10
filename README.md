@@ -8,7 +8,7 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 ***
 
 # Table of Contents
-- [SUBTYPE POLYMORPHISM](#subtype-polymorphism)
+- [SUBTYPE POLYMORPHISM: VIRTUAL](#subtype-polymorphism)
 	- [Polymorphism Overview](#polymorphism-overview)
 	- [Understanding Subtype Polymorphism](#understanding-subtype-polymorphism)
 	- [Implementation in C++](#Implementation-in-c++)
@@ -22,8 +22,11 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 ***
 ***
 
-# SUBTYPE POLYMORPHISM
+# SUBTYPE POLYMORPHISM: VIRTUAL
 Subtype polymorphism **allows objects of different types to be treated uniformly based on a shared base type**. In C++, subtype polymorphism is primarily achieved through **inheritance** and **virtual functions**, enabling dynamic (run-time) behavior.
+
+Usefull Video: https://www.youtube.com/watch?v=4NPOIaUxnnk&ab_channel=ProfessorHankStalica
+
 
 
 ## Polymorphism Overview
