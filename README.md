@@ -18,6 +18,9 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 		- [3. Base and Derived Classes](#3-base-and-derived-classes)
 		- [4. Virtual Destructors](#6-virtual-destructors)
 	- [Practical Examples](#pratical-examples)
+- [ABSTRACT CLASSES AND INTERFACES](#abstract-classes-and-interfaces)
+    - [ABSTRACT CLASSES](#abstract-classes)
+        - [Key Characteristics](#key-characteristics)
 
 ***
 ***
@@ -405,3 +408,26 @@ Woof!
 Meow!
 Woof!
 ```
+
+***
+***
+
+# ABSTRACT CLASSES AND INTERFACES
+Abstract classes and interfaces are fundamental concepts in object-oriented 
+programming (OOP) that help design flexible and maintainable software. 
+In C++, these concepts are primarily represented through abstract classes, 
+as C++ does not have a dedicated syntax for interfaces like some other languages 
+(e.g., Java). Here’s a detailed exploration of abstract classes and interfaces in C++.
+
+## ABSTRACT CLASSES
+An abstract class is a **class that cannot be instantiated** on its own and is designed 
+to serve as a base for other classes. It typically **contains one or more pure virtual functions**, 
+which must be overridden in derived classes.
+
+## Key Characteristics
+- **Contains Pure Virtual Functions**: A pure virtual function is a member function 
+in a base class that has no implementation and is declared to be "pure" by using the = 0 
+in its declaration. This type of function enforces that any derived class must provide 
+an implementation for the function in order to be instantiated. 
+A class that contains at least one pure virtual function is considered an abstract 
+class and cannot be instantiated directly.
