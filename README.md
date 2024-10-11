@@ -21,6 +21,11 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 - [ABSTRACT CLASSES AND INTERFACES](#abstract-classes-and-interfaces)
     - [ABSTRACT CLASSES](#abstract-classes)
         - [Key Characteristics](#key-characteristics)
+    - [INTERFACES](#interfaces)
+        - [Characteristics of an Interface](#characteristics-of-an-interface)
+        - [Example of an Interface](#example-of-an-interface)
+        - [Implementing Interfaces](#Implementing-nterfaces)
+    - [DIFFERENCES BETWEEN ABSTACT CLASSES AND INTERFACES](#Differences-Between-Abstract-Classes-and-Interfaces)
 
 ***
 ***
@@ -436,3 +441,215 @@ which must be overridden in derived classes.
     ```
 - **Cannot be Instantiated**: You cannot create objects of an abstract class directly
 - **Provides a Common Interface**: Abstract classes allow you to define a common interface for all derived classes.
+
+**Example**
+```C++
+// Shape.h
+#ifndef ASHAPE_H
+#define ASHAPE_H
+
+// Note: "A" stands for "Abstract"
+class AShape {
+public:
+    virtual ~AShape() {}  // Virtual destructor
+
+    virtual void draw() const = 0; // Pure virtual function
+    virtual double area() const = 0; // Pure virtual function
+};
+
+#endif // SHAPE_H
+```
+- The Shape class is an abstract class because it contains pure virtual functions (draw and area).
+- Any class deriving from Shape must provide implementations for these functions.
+
+Derived Classes
+```C++
+// Circle.h
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include "AShape.h"
+#include <iostream>
+#include <cmath> // For M_PI
+
+class Circle : public AShape {
+private:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+
+    void draw() const {
+        std::cout << "Drawing a Circle with radius " << radius << std::endl;
+    }
+
+    double area() const {
+        return M_PI * radius * radius;
+    }
+};
+
+#endif // CIRCLE_H
+```
+```C++
+// Rectangle.h
+#ifndef RECTANGLE_H
+#define RECTANGLE_H
+
+#include "AShape.h"
+#include <iostream>
+
+class Rectangle : public AShape {
+private:
+    double width;
+    double height;
+
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+
+    void draw() const {
+        std::cout << "Drawing a Rectangle with width " << width 
+                  << " and height " << height << std::endl;
+    }
+
+    double area() const {
+        return width * height;
+    }
+};
+
+#endif // RECTANGLE_H
+```
+- The Circle and Rectangle classes inherit from the Shape class and implement the draw and area methods.
+
+**to better understand**
+Consider this example
+```C++
+//.hpp
+Class ACharacter
+{
+    public:
+        virtual void attack(std::string const& target) = 0;
+        void sayHello(std::string const& target);
+};
+
+Class Warrior : public ACharacter
+{
+    public:
+        virtual void attack(std::string const& target);
+};
+```
+
+```C++
+//.cpp
+void ACharacter::sayHello(std::string const& target)
+{
+    std::cout << "Hello" << target << " !" << std::endl;
+}
+
+void Warrior:attack(std::string const& target)
+{
+    std::cout << "attacks " << target << "with sword" << std::endl;
+}
+```
+
+```C++
+//main.c
+int main()
+{
+    Acharacter* a = new Warrior();
+    
+    //This would NOT be ok because ACharacter is abstract
+    //Acharacter* a = new ACharacter();
+
+    a->sayHello("sudents");
+    a->attack("ranger");
+}
+```
+What an abstract class like this tells us is that all derived subclasses must 
+implement the method 'attack.' They may have other methods, or none at all, 
+but they will definitely have their own implementation of the 'attack' method
+
+
+## INTERFACES
+In C++, an **interface** can be thought of as an 
+**abstract class that only contains pure virtual functions and no data members**. 
+Since C++ does not have a distinct keyword for interfaces, you typically create 
+an interface using an abstract class.
+
+## Characteristics of an Interface
+- **Only Pure Virtual Functions**: All member functions must be pure virtual.
+- **No Implementation**: Interfaces do not provide any implementation; they only declare the function signatures.
+- **Multiple Inheritance**: C++ allows multiple inheritance, meaning a class can implement multiple interfaces.
+
+### Example of an Interface
+```c++
+// Drawable.h
+#ifndef DRAWABLE_H
+#define DRAWABLE_H
+
+class Drawable {
+public:
+    virtual ~Drawable() {}
+
+    virtual void draw() const = 0; // Pure virtual function
+};
+
+#endif
+```
+
+### Implementing Interfaces
+Classes can implement multiple interfaces, as shown below:
+```C++
+// Circle.h
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include "Drawable.h"
+#include <iostream>
+#include <cmath>
+
+class Circle : public Drawable {
+private:
+    double radius;
+
+public:
+    Circle(double r) : radius(r) {}
+
+    void draw() const {
+        std::cout << "Drawing a Circle with radius " << radius << std::endl;
+    }
+};
+
+#endif // CIRCLE_H
+```
+```C++
+// Square.h
+#ifndef SQUARE_H
+#define SQUARE_H
+
+#include "Drawable.h"
+#include <iostream>
+
+class Square : public Drawable {
+private:
+    double side;
+
+public:
+    Square(double s) : side(s) {}
+
+    void draw() const {
+        std::cout << "Drawing a Square with side " << side << std::endl;
+    }
+};
+
+#endif // SQUARE_H
+```
+
+## DIFFERENCES BETWEEN ABSTACT CLASSES AND INTERFACES
+| Feature                | Abstract Class                             | Interface                                 |
+|------------------------|--------------------------------------------|-------------------------------------------|
+| Instantiation          | Cannot be instantiated                     | Cannot be instantiated                    |
+| Member Variables       | Can have member variables                  | Cannot have member variables              |
+| Access Modifiers       | Can have access modifiers                  | All members are public by default         |
+| Implementation         | Can provide some implementations           | Cannot provide any implementation         |
+| Multiple Inheritance   | Can inherit from multiple abstract classes | Can be inherited from multiple interfaces |
+| Constructor/Destructor | Can have constructors/destructors          | Cannot have constructors/destructors      |
