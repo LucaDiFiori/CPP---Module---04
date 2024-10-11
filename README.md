@@ -526,6 +526,9 @@ Consider this example
 //.hpp
 Class ACharacter
 {
+    private:
+        std::string name;
+        
     public:
         virtual void attack(std::string const& target) = 0;
         void sayHello(std::string const& target);
@@ -572,23 +575,26 @@ but they will definitely have their own implementation of the 'attack' method
 ## INTERFACES
 In C++, an **interface** can be thought of as an 
 **abstract class that only contains pure virtual functions and no data members**. 
+It establishes a contract for derived classes, specifying that they must implement certain functionalities.
 Since C++ does not have a distinct keyword for interfaces, you typically create 
 an interface using an abstract class.
 
 ## Characteristics of an Interface
 - **Only Pure Virtual Functions**: All member functions must be pure virtual.
+- **No attributes**:  An interface does not contain member attributes; it only defines virtual functions
+- **No Constructors**: An interface cannot have constructors, but it can have a virtual destructor to ensure proper cleanup in derived classes.
 - **No Implementation**: Interfaces do not provide any implementation; they only declare the function signatures.
 - **Multiple Inheritance**: C++ allows multiple inheritance, meaning a class can implement multiple interfaces.
 
 ### Example of an Interface
 ```c++
 // Drawable.h
-#ifndef DRAWABLE_H
-#define DRAWABLE_H
-
-class Drawable {
+#ifndef IDRAWABLE_H
+#define IDRAWABLE_H
+//"I" stands for "Interface"
+class IDrawable {
 public:
-    virtual ~Drawable() {}
+    virtual ~IDrawable() {}
 
     virtual void draw() const = 0; // Pure virtual function
 };
@@ -603,11 +609,11 @@ Classes can implement multiple interfaces, as shown below:
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-#include "Drawable.h"
+#include "IDrawable.h"
 #include <iostream>
 #include <cmath>
 
-class Circle : public Drawable {
+class Circle : public IDrawable {
 private:
     double radius;
 
@@ -626,10 +632,10 @@ public:
 #ifndef SQUARE_H
 #define SQUARE_H
 
-#include "Drawable.h"
+#include "IDrawable.h"
 #include <iostream>
 
-class Square : public Drawable {
+class Square : public IDrawable {
 private:
     double side;
 
@@ -652,4 +658,4 @@ public:
 | Access Modifiers       | Can have access modifiers                  | All members are public by default         |
 | Implementation         | Can provide some implementations           | Cannot provide any implementation         |
 | Multiple Inheritance   | Can inherit from multiple abstract classes | Can be inherited from multiple interfaces |
-| Constructor/Destructor | Can have constructors/destructors          | Cannot have constructors/destructors      |
+| Constructor/Destructor | Can have constructors/destructors          | Cannot have constructors/Can Have Virtual Destructors |
