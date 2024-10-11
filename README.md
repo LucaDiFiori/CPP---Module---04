@@ -8,7 +8,7 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 ***
 
 # Table of Contents
-- [SUBTYPE POLYMORPHISM: VIRTUAL](#subtype-polymorphism)
+- [SUBTYPE POLYMORPHISM (Overriding member functions): VIRTUAL](#subtype-polymorphism-(overriding-member-functions)-virtual)
 	- [Polymorphism Overview](#polymorphism-overview)
 	- [Understanding Subtype Polymorphism](#understanding-subtype-polymorphism)
 	- [Implementation in C++](#Implementation-in-c++)
@@ -22,7 +22,7 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
 ***
 ***
 
-# SUBTYPE POLYMORPHISM: VIRTUAL
+# SUBTYPE POLYMORPHISM (Overriding member functions): VIRTUAL
 Subtype polymorphism **allows objects of different types to be treated uniformly based on a shared base type**. In C++, subtype polymorphism is primarily achieved through **inheritance** and **virtual functions**, enabling dynamic (run-time) behavior.
 
 Usefull Video: https://www.youtube.com/watch?v=4NPOIaUxnnk&ab_channel=ProfessorHankStalica
@@ -57,6 +57,61 @@ To implement subtype polymorphism in C++, follow these steps:
 - **Use Base Class Pointers/References**: Access derived objects through base class interfaces, enabling dynamic binding.
 
 ### Step-by-Step Example
+#### 1. 42 example
+Let's first see what would happen if I tried to implement this polymorphism 
+without using the 'virtual' keyword.
+
+- Base and Subclasse
+```C++
+// .hpp
+#include <string>
+#include <iostream> 
+
+class Character
+{
+    public:
+        void sayHello(std::string const& target);
+};
+
+class Warrior : public Character
+{
+    public:
+        void sayHello(std::string const& target);
+}
+```
+
+- methodos implementation
+```C++
+// .cpp
+void Character::sayHello(std::string const& target)
+{
+    std::cout << "Hello" << target << " !" << std::endl;
+}
+
+void Warrior::sayHello(std::string const& target)
+{
+    std::cout << "F*** off" << target << " , iI don't like you!" << std::endl;
+}
+```
+
+- main
+``` C++
+int main()
+{
+    Warrior* a = new Warrior();
+    Character* b = new Warrior();
+
+}
+```
+**Notes**:
+- **Character* b = new Warrior()**: This declares a pointer b to an object of type Character. 
+It's important to note that b can point to any object that is a Character or derived from 
+Character (like Warrior). 
+The opposit (Warrior* c = new Character) is not possible
+
+
+
+#### 2. Shape example
 Consider a graphics application with different shapes (e.g., Circle, Rectangle). 
 Each shape can be drawn, but the drawing process differs. 
 Using subtype polymorphism, a single interface can handle various shapes seamlessly.
