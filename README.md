@@ -132,7 +132,31 @@ and the output is:
 Hello studets
 ```
 
+**Solution**
+To solve this problem, I will use the virtual keyword to create dynamic binding between the classes
+```C++
+// .hpp
+#include <string>
+#include <iostream> 
 
+class Character
+{
+    public:
+        virtual void sayHello(std::string const& target);
+};
+
+class Warrior : public Character
+{
+    public:
+        virtual void sayHello(std::string const& target);
+}
+// Note: we don't need to use "virtual" in the subclass
+```
+Output
+```BASH
+F*** off students, I don't like you !
+F*** off students, I don't like you !
+``` 
 
 #### 2. Shape example
 Consider a graphics application with different shapes (e.g., Circle, Rectangle). 
