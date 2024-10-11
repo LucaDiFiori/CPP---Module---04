@@ -426,8 +426,13 @@ which must be overridden in derived classes.
 
 ## Key Characteristics
 - **Contains Pure Virtual Functions**: A pure virtual function is a member function 
-in a base class that has no implementation and is declared to be "pure" by using the = 0 
-in its declaration. This type of function enforces that any derived class must provide 
-an implementation for the function in order to be instantiated. 
-A class that contains at least one pure virtual function is considered an abstract 
-class and cannot be instantiated directly.
+    in a base class that has no implementation and is declared to be "pure" by using the = 0 
+    in its declaration. This type of function enforces that any derived class must provide 
+    an implementation for the function in order to be instantiated. 
+    A class that contains at least one pure virtual function is considered an abstract 
+    class and cannot be instantiated directly.
+    ```BASH
+    virtual void myFunction() = 0;
+    ```
+- **Cannot be Instantiated**: You cannot create objects of an abstract class directly
+- **Provides a Common Interface**: Abstract classes allow you to define a common interface for all derived classes.
