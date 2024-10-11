@@ -101,6 +101,8 @@ int main()
     Warrior* a = new Warrior();
     Character* b = new Warrior();
 
+    a->sayHello("students");
+    b->sayHello("studets");
 }
 ```
 **Notes**:
@@ -108,6 +110,27 @@ int main()
 It's important to note that b can point to any object that is a Character or derived from 
 Character (like Warrior). 
 The opposit (Warrior* c = new Character) is not possible
+
+Output
+```BASH
+F*** off students, I don't like you !
+Hello studets
+``` 
+
+- In the first case, a->sayHello("students") uses a pointer of type Warrior*. 
+Since a is a pointer to a Warrior object, the sayHello method from the Warrior 
+class is called without ambiguity, resulting in the output:
+```BASH
+F*** off students, I don't like you !
+```
+- In the second case, b->sayHello("studets") uses a pointer of type Character*. 
+Even though b is initialized with a Warrior object, the sayHello method from the 
+Character class is called because the method in Character is not marked as virtual. 
+This results in the base class's method being used instead of the one in Warrior, 
+and the output is:
+```BASH
+Hello studets
+```
 
 
 
