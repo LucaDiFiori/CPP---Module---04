@@ -26,6 +26,10 @@ This module is designed to help you understand Subtype polymorphism, abstract cl
         - [Example of an Interface](#example-of-an-interface)
         - [Implementing Interfaces](#Implementing-nterfaces)
     - [DIFFERENCES BETWEEN ABSTACT CLASSES AND INTERFACES](#Differences-Between-Abstract-Classes-and-Interfaces)
+- [SHALLOW COPY vs DEEP COPY](#shallow-copy-vd-deep-copy)
+    - [Shallow Copy](#shallow-copy)
+    - [Deep Copy](#deep-copy)
+    - [Testing for Deep Copies](#testing-for-deep-copies)
 
 ***
 ***
@@ -659,3 +663,76 @@ public:
 | Implementation         | Can provide some implementations           | Cannot provide any implementation         |
 | Multiple Inheritance   | Can inherit from multiple abstract classes | Can be inherited from multiple interfaces |
 | Constructor/Destructor | Can have constructors/destructors          | Cannot have constructors/Can Have Virtual Destructors |
+
+***
+***
+
+# SHALLOW COPY vs DEEP COPY
+## Shallow Copy
+- A shallow copy of an object creates a new object that is a copy of the original object, but it copies the references (or pointers) to the resources rather than the resources themselves.
+
+- As a result, both the original object and the copied object refer to the same resource in memory.
+
+- If either object modifies the resource, it will affect the other object since they share the same resource.
+
+- This can lead to issues like double deletion if both objects try to free the same resource when they are destroyed.
+
+**example**
+```C++
+class Cat {
+public:
+    Brain* _brain; // Pointer to a Brain object
+};
+
+Cat original;
+Cat copy = original; // This creates a shallow copy
+```
+In this case, both original and copy will point to the same Brain object.
+
+Infact if your Cat class does not explicitly define a copy constructor, then the line:
+```C++
+Cat copy = original; // This creates a shallow copy
+
+/*Note: Here you are not calling the copy assignment operator. Instead, you are invoking the copy constructor of the Cat class. The copy constructor is called when a new object is being created from an existing object
+
+The copy assignment operator is called when an already initialized object is assigned the value of another existing object:
+Cat original;   // Calls the default constructor
+Cat copy;      // Calls the default constructor for copy
+copy = original;  // Calls the copy assignment operator
+```
+will invoke the default copy constructor that the C++ compiler automatically generates for you. For pointers, it copies the pointer value itself, not the data it points to. This results in both original and copy pointing to the same Brain object, leading to a shallow copy.
+
+
+## Deep Copy
+- A deep copy, on the other hand, creates a new object that is a copy of the original object and also creates new copies of all the resources that the original object points to.
+
+- Each object has its own copy of the resources, so they do not affect each other.
+
+- This is important when the class manages dynamic memory (like pointers), as it prevents issues related to shared ownership of resources
+
+**example**
+```C++
+class Cat {
+public:
+    Brain* _brain; // Pointer to a Brain object
+    
+    Cat(const Cat& other) {
+        // Perform a deep copy
+        this->_brain = new Brain(*other._brain);
+    }
+};
+
+Cat original;
+Cat copy = original; // This creates a deep copy
+```
+In this case, copy will have its own Brain object that is a separate copy of the one pointed to by original.
+
+## Testing for Deep Copies
+When you need to test for deep copies, it means you should verify that each copy of an object is independent of the others. Here’s a more general explanation:
+- **Independence of Copies**: After creating a copy of an object, you should ensure that changes made to the copy do not affect the original object, and vice versa. This includes modifying attributes or internal states of the objects. For example, if you modify the internal state of an object within a copied instance, the original instance should remain unchanged.
+
+- **Memory Management**: You should verify that when one instance of an object is destroyed, it does not inadvertently affect another instance. This is particularly important when dealing with dynamic memory allocation. If two objects share the same dynamically allocated resource (like a pointer), deleting one object can lead to the other object referencing a memory location that has been freed, resulting in undefined behavior or program crashes.
+
+### Practical Steps for Testing
+- **Modify and Compare**: After creating a copy, modify the copy's state and check that the original remains unchanged. For example, if the original object has a specific value and you change that value in the copy, assert that the original value is still intact.
+- **Destruction Testing**: Create two objects (the original and its copy), and then destroy one of them. After that, check if the remaining object can still access its resources safely and without error. This helps ensure that the object does not point to invalid memory after another object is deleted.
