@@ -59,20 +59,9 @@ int main()
 		animals[i]->makeSound();
 
 	
-	std::cout << "\n\n=== Deep copying test ===" << std::endl;
-	std::cout << "- Creating a new Dog with a specific idea in its brain" << std::endl;
-	Dog originalDog;
-	originalDog.getBrain()->setIdea("Chase the cat", 0);
-	std::cout << "Original dog idea: " << originalDog.getBrain()->getIdea(0) << std::endl;
-
-	std::cout << "\n- Copying the dog" << std::endl;
-	Dog copiedDog(originalDog);
-
-	std::cout << "\n- Changing the idea of the original dog" << std::endl;
-	originalDog.getBrain()->setIdea("I love cats", 0);
-
-	std::cout << "\n- Original dog idea: " << originalDog.getBrain()->getIdea(0) << std::endl;
-	std::cout << "- Copied dog idea: " << copiedDog.getBrain()->getIdea(0) << std::endl;
+	std::cout << "\n\n=== Tring to instantiate Animal ===" << std::endl;
+	std::cout << "Uncomment Animal animal; in main.cpp to see the error" << std::endl;
+	// Animal animal; // Error: cannot instantiate abstract class
 
 	std::cout << "\n\n=== Deleting animals ===" << std::endl;
 	for (int i = 0; i < arraySize; i++)

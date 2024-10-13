@@ -49,7 +49,7 @@ void Animal::setType(std::string type)
 	this->_type = type;
 }
 
-//getter and setter_____________________________________________________________
+//methods_____________________________________________________________
 void Animal::makeSound() const
 {
 	std::cout << GREEN << "The animal makes a sound" << RESET << std::endl;

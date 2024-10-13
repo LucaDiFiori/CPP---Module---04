@@ -28,10 +28,9 @@ Animal& Animal::operator = (const Animal& src)
 	return (*this);
 }
 
-Animal::Animal(const Animal& src)
+Animal::Animal(const Animal& src) : _type(src._type)
 {
 	std::cout << GREEN << "Animal -copy constructor- called" << RESET << std::endl;
-	*this = src;
 }
 
 Animal::~Animal()
@@ -50,8 +49,7 @@ void Animal::setType(std::string type)
 	this->_type = type;
 }
 
-//methods_____________________________________________________________
-void Animal::makeSound() const
-{
-	std::cout << GREEN << "The animal makes a sound" << RESET << std::endl;
-}
+//methods_______________________________________________________________________
+// you do not need to implement the makeSound() method in the Animal class once it 
+// has been declared as a pure virtual function 
+// (i.e., virtual void makeSound() const = 0;).
