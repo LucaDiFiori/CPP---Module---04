@@ -1,4 +1,4 @@
-NAME = brain
+NAME = abstract
 CC = g++
 CPPFLAGS = -Wall -Wextra -Werror -Wshadow -Wno-shadow -std=c++98
 
