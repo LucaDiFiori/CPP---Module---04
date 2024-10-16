@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:59:54 by ldi-fior          #+#    #+#             */
-/*   Updated: 2024/10/16 12:33:58 by luca             ###   ########.fr       */
+/*   Updated: 2024/10/16 15:38:29 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ Character::Character(const Character& src) :
 	for (int i = 0; i < 4; i++)
 	{
 		if (src._inventory[i])
+		{
 			this->_inventory[i] = src._inventory[i]->clone();
+		}
 		else
 			this->_inventory[i] = NULL;	
 	}
@@ -159,7 +161,8 @@ Character& Character::operator=(const Character& src)
 
 Character::~Character()
 {
-	std::cout << RED << "Character: " << this->_name << " left the game" << RESET << std::endl;
+	std::cout << RED << "Character: " << this->_name << " left the game" 
+		<< RESET << std::endl;
 	
 	for (int i = 0; i < 4; i++)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   AMateria.Class.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldi-fior <marvin@42.fr>                    #+#  +:+       +#+        */
+/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-10-14 09:50:12 by ldi-fior          #+#    #+#             */
-/*   Updated: 2024-10-14 09:50:12 by ldi-fior         ###   ########.fr       */
+/*   Created: 2024/10/14 09:50:12 by ldi-fior          #+#    #+#             */
+/*   Updated: 2024/10/16 15:21:31 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #  define GREEN "\033[1;32m"
 #  define CYAN "\033[1;36m"
 #  define RED "\033[1;31m"
+# define YELLOW "\033[1;33m"
 #  define RESET "\033[0m"
 # endif
 
