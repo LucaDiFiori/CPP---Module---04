@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Character.Class.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldi-fior <marvin@42.fr>                    #+#  +:+       +#+        */
+/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-10-15 11:00:49 by ldi-fior          #+#    #+#             */
-/*   Updated: 2024-10-15 11:00:49 by ldi-fior         ###   ########.fr       */
+/*   Created: 2024/10/15 11:00:49 by ldi-fior          #+#    #+#             */
+/*   Updated: 2024/10/16 11:30:37 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 /*
 *  
-* Private attributes:
+* Private attributes: 
 * -------------------
 * - std::string _name: the name of the character.
 * - AMateria* _inventory[4]: an array of 4 AMateria pointers.
@@ -54,9 +54,9 @@ class Character : public ICharacter
 
 	public:
 		Character(const std::string& name);
-		Character(const Character& other);
-		Character& operator=(const Character& other);
-		virtual ~Character();
+		Character(const Character& src);
+		Character& operator=(const Character& src);
+		~Character();
 
 		const std::string& getName() const;
 
