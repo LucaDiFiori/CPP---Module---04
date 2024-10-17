@@ -75,9 +75,9 @@ Character::Character(const std::string& name)
 
 Character::Character(const Character& src) : 
 	_name(src._name), 
+	_droppedMaterias(new AMateria*[src._droppedCapacity]),
 	_droppedCount(src._droppedCount), 
-	_droppedCapacity(src._droppedCapacity),
-	_droppedMaterias(new AMateria*[src._droppedCapacity])
+	_droppedCapacity(src._droppedCapacity)
 {
 	std::cout << RED << "Character - copy constructor - call" << RESET << std::endl;
 	
@@ -169,7 +169,6 @@ Character::~Character()
 		if (this->_inventory[i])
 		{
 			delete this->_inventory[i];
-			this->_inventory[i] = NULL;
 		}
 	}
 	for (int i = 0; i < _droppedCount; i++)
@@ -177,11 +176,9 @@ Character::~Character()
 		if (this->_droppedMaterias[i])
 		{
 			delete this->_droppedMaterias[i];
-			this->_droppedMaterias[i] = NULL;
 		}
 	}
 	delete[] this->_droppedMaterias;
-	this->_droppedMaterias = NULL;
 }
 
 
@@ -194,20 +191,68 @@ const std::string& Character::getName() const
     return (this->_name);
 }
 
+
+/*
+* Method: Character::equip
+* ------------------------
+* This method equips a given AMateria to the character's inventory. It ensures that 
+* the same instance of Materia is not equipped multiple times and that the inventory 
+* is not full before equipping.
+*
+* Parameter:
+* - m: A pointer to the AMateria to be equipped.
+*
+* Null pointer check
+* ------------------
+* - Checks if the passed Materia pointer (m) is NULL.
+* - If the pointer is NULL, the method returns immediately without any action.
+*
+* Checking for duplicates
+* -----------------------
+* - Loops through the inventory to check if the same instance of the given Materia 
+*   is already equipped.
+* - If found, prints a message indicating that the Materia is already equipped and 
+*   returns without taking further action.
+*
+* Finding an empty slot
+* ---------------------
+* - During the loop, it also checks for the first available (NULL) slot in the 
+*   inventory where the Materia can be equipped.
+* - The index of the first free slot is saved in "freeSlot" variable.
+*
+* Equipping the Materia
+* ---------------------
+* - After the loop, if an empty slot is found, the Materia is equipped in that slot.
+* - Prints a message indicating that the Materia has been successfully equipped.
+* - If no free slot is found, prints a message stating that the inventory is full.
+*/
 void Character::equip(AMateria* m)
 {
-	for (int i = 0; i < 4; i++)
-	{
-		if(this->_inventory[i] == NULL)
-		{
-			this->_inventory[i] = m;
-			std::cout << GREEN << "Character: " << this->_name 
-				<< "- equiped -" << m->getType() << RESET << std::endl;
-			
-			return;
-		}
-	}
-	std::cout << "Inventory is full" << std::endl;
+	if (!m)
+        return;
+		
+	int freeSlot = -1;
+
+    for (int i = 0; i < 4; i++)
+    {
+        if (this->_inventory[i] == m)
+        {
+            std::cout << GREEN << "Character: " << this->_name 
+                      << " already has this Materia equipped!" << RESET << std::endl;
+            return;
+        }
+        if (this->_inventory[i] == NULL && freeSlot == -1)
+            freeSlot = i;
+    }
+
+    if (freeSlot != -1)
+    {
+        this->_inventory[freeSlot] = m;
+        std::cout << GREEN << "Character: " << this->_name 
+                  << " - equipped - " << m->getType() << RESET << std::endl;
+    }
+    else
+        std::cout << "Inventory is full" << std::endl;
 }
 
 
@@ -273,7 +318,7 @@ void Character::use(int idx, ICharacter& target)
 {
 	if (idx < 0 || idx >= 4 || this->_inventory[idx] == NULL)
 	{
-		std::cout << "Invalid index" << std::endl;
+		std::cout << "Invalid inventory slot" << std::endl;
 		return;
 	}
 	this->_inventory[idx]->use(target);

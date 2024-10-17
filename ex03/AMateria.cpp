@@ -40,6 +40,7 @@ AMateria::AMateria(const AMateria& src) : _type(src._type)
 */
 AMateria& AMateria::operator=(const AMateria& src)
 {
+	(void)src;
 	std::cout << PURPLE << "AMateria - Assignation operator - call" 
 		<< RESET << std::endl;
 	return (*this);

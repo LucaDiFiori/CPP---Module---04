@@ -25,6 +25,7 @@ Ice::Ice(const Ice& src) : AMateria(src)
 
 Ice& Ice::operator=(const Ice& src)
 {
+	(void)src;
 	std::cout << CYAN << "Ice - assignation operator - call" << RESET << std::endl;
 
 	return (*this);

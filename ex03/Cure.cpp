@@ -26,6 +26,7 @@ Cure::Cure (const Cure& src) : AMateria(src)
 
 Cure& Cure::operator=(const Cure& src)
 {
+	(void)src;
 	std::cout << GREEN << "Cure - assignation operator - call" 
 		<< RESET << std::endl;
 	return (*this);
